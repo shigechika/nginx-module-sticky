@@ -17,7 +17,7 @@ BuildRequires: redhat-lsb-core
 %define epoch 1
 Epoch: %{epoch}
 %define os_minor %(lsb_release -rs | cut -d '.' -f 2)
-%if %{os_minor} >= 4
+%if %{os_minor} == 4
 %define dist .el7_4
 %else
 %define dist .el7
@@ -27,14 +27,14 @@ Epoch: %{epoch}
 BuildRequires: expat-devel
 BuildRequires: git
 
-%define main_version 1.14.2
+%define main_version 1.16.0
 %define main_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{main_version}
 
 Summary: nginx sticky dynamic module
 Name: nginx-module-sticky
-Version: 1.14.2
+Version: %{main_version}
 Release: 1%{?dist}.ngx
 Vendor: Nginx, Inc.
 URL: http://nginx.org/
@@ -42,7 +42,7 @@ Group: %{_group}
 
 Source0: http://nginx.org/download/nginx-%{main_version}.tar.gz
 Source1: COPYRIGHT
-Source2: %{name}.config
+#Source2: %{name}.config
 
 
 
@@ -140,7 +140,7 @@ The sticky dynamic module for nginx has been installed.
 To enable this module, add the following to /etc/nginx/nginx.conf
 and reload nginx:
 
-    load_module modules/ngx_http_sticky_module.so
+    load_module modules/ngx_http_sticky_module.so;
 
 Please refer to the module documentation for further details:
 https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/
@@ -150,6 +150,9 @@ BANNER
 fi
 
 %changelog
+* Thu Jun 27 2019 Shigechika AIKAWA
+- base version updated to 1.16.0
+
 * Wed Dec 05 2018 Shigechika AIKAWA
 - base version updated to 1.14.2
 
