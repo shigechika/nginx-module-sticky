@@ -2,14 +2,27 @@
 %define nginx_user nginx
 %define nginx_group nginx
 
+# distribution specific definitions
+%define use_systemd (0%{?rhel} >= 7 || 0%{?fedora} >= 19 || 0%{?suse_version} >= 1315 || 0%{?amzn} >= 2)
+
+%if %{use_systemd}
+BuildRequires: systemd
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+%endif
+
 %if 0%{?rhel} || 0%{?amzn}
 %define _group System Environment/Daemons
 BuildRequires: openssl-devel
 %endif
 
-%if 0%{?suse_version} >= 1315
-%define _group Productivity/Networking/Web/Servers
-BuildRequires: libopenssl-devel
+%if 0%{?rhel} == 6
+Requires(pre): shadow-utils
+Requires: initscripts >= 8.36
+Requires(post): chkconfig
+Requires: openssl >= 1.0.1
+BuildRequires: openssl-devel >= 1.0.1
 %endif
 
 %if 0%{?rhel} == 7
@@ -24,10 +37,23 @@ Epoch: %{epoch}
 %endif
 %endif
 
+%if 0%{?rhel} == 8
+%define epoch 1
+Epoch: %{epoch}
+Requires(pre): shadow-utils
+BuildRequires: openssl-devel >= 1.1.1
+%define _debugsource_template %{nil}
+%endif
+
+%if 0%{?suse_version} >= 1315
+%define _group Productivity/Networking/Web/Servers
+BuildRequires: libopenssl-devel
+%endif
+
 BuildRequires: expat-devel
 BuildRequires: git
 
-%define main_version 1.16.0
+%define main_version 1.16.1
 %define main_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{main_version}
@@ -42,10 +68,6 @@ Group: %{_group}
 
 Source0: http://nginx.org/download/nginx-%{main_version}.tar.gz
 Source1: COPYRIGHT
-#Source2: %{name}.config
-
-
-
 
 License: 2-clause BSD-like license
 
@@ -150,6 +172,9 @@ BANNER
 fi
 
 %changelog
+* Thu Aug 22 2019 Shigechika AIKAWA
+- sync w/ nginx-1.16.1
+
 * Thu Jun 27 2019 Shigechika AIKAWA
 - base version updated to 1.16.0
 
