@@ -53,7 +53,7 @@ BuildRequires: libopenssl-devel
 BuildRequires: expat-devel
 BuildRequires: git
 
-%define main_version 1.16.1
+%define main_version 1.18.0
 %define main_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{main_version}
@@ -172,6 +172,9 @@ BANNER
 fi
 
 %changelog
+* Fri May 22 2020 Shigechika AIKAWA
+- sync w/ nginx-1.18.0.
+
 * Thu Aug 22 2019 Shigechika AIKAWA
 - sync w/ nginx-1.16.1
 
