@@ -7,11 +7,11 @@
 
 ```
 rpmdev-setuptree
-rpm -Uvh https://nginx.org/packages/centos/7/SRPMS/nginx-1.16.1-1.el7.ngx.src.rpm
+rpm -Uvh https://nginx.org/packages/centos/7/SRPMS/nginx-1.18.0-1.el7.ngx.src.rpm
 git clone https://github.com/shigechika/nginx-module-sticky.git
 cd nginx-module-sticky
 rpmbuild -ba nginx-module-sticky.spec
-yum localupdate /path/to/nginx-module-sticky-1.16.1-1.el7.ngx.x86_64.rpm
+yum localupdate /path/to/nginx-module-sticky-1.18.0-1.el7.ngx.x86_64.rpm
 ```
 
 *See Also
